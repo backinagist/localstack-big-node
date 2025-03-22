@@ -1,0 +1,37 @@
+services:
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-big}"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=${DEBUG:-0}
+    networks:
+      - db-network
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./docker-temp/localstack/volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      # init hooks: <https://docs.localstack.cloud/references/init-hooks/>
+      - ./ops/localstack/init:/etc/localstack/init/ready.d
+
+  api:
+    container_name: ls-big-api
+    networks:
+      - db-network
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        ENV: docker
+    depends_on:
+      - localstack
+    environment:
+      - AWS_ENDPOINT_OVERRIDE=http://localstack:4566
+    ports:
+      - 3000:3000
+    restart: always
+
+networks:
+  db-network:
+    driver: bridge

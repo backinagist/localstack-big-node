@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://backinagist.com/" target="blank"><img src="https://backinagist.com/BIG_logo_light.svg" width="200" alt="Back in a gist - blog by imixtron" /></a>
+  <a href="http://backinagist.com/" target="blank"><img src="https://backinagist.com/BIG_logo_light.svg" width="500" alt="Back in a gist - blog by imixtron" /></a>
 </p>
 
 ## Description
